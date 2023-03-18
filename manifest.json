@@ -1,0 +1,43 @@
+{
+    "manifest_version": 3,
+    "name": "No Youtube Shorts",
+    "short_name": "NoYTS",
+    "description": "Block shorts on YouTube",
+    "author": "Zoom",
+    "version": "0.1",
+    "action": {
+        "default_title": "Hello there !"
+    },
+    "background": {
+        "service_worker": "js/background.js"
+    },
+    "content_scripts": [
+        {
+            "js": [
+                "js/all.js"
+            ],
+            "matches": [
+                "https://www.youtube.com/*"
+            ]
+        },
+        {
+            "js": [
+                "js/feed.js"
+            ],
+            "matches": [
+                "https://www.youtube.com/feed/subscriptions"
+            ]
+        },
+        {
+            "js": [
+                "js/home.js"
+            ],
+            "matches": [
+                "https://www.youtube.com/"
+            ]
+        }
+    ],
+    "permissions": [
+        "tabs"
+    ]
+}
