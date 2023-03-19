@@ -2,7 +2,7 @@ const globalDelay = 1000;
 const shortsConfig = {
     hideNavLink: true,
     hideSubFeed: true,
-    hideHomePage: false,
+    hideHomePage: true,
     replaceShortUrl: true,
 }
 
@@ -12,7 +12,7 @@ const shortsConfig = {
  */
 function HideElement(selector) {
     if (selector && selector.style.display === '') {
-        console.log('Hiding', selector);
+        // console.log('Hiding', selector);
         selector.style.display = 'none';
     }
 }
@@ -30,7 +30,8 @@ function HideShortsNavLink() {
  * Hides shorts in subscriptions feed
  */
 function HideShortsSubFeed() {
-    if (location.href === 'https://www.youtube.com/feed/subscriptions') {
+    // GRID VIEW
+    if (location.href === 'https://www.youtube.com/feed/subscriptions' || location.href === 'https://www.youtube.com/feed/subscriptions?flow=1') {
         const selectors = document.querySelectorAll("#overlays > ytd-thumbnail-overlay-time-status-renderer > yt-icon > svg");
         selectors.forEach((el) => {
             HideElement(el.closest('ytd-grid-video-renderer'));
@@ -57,6 +58,10 @@ function ChangeUrlShorts() {
         const shortId = location.href.slice(31);
         location.href = `https://www.youtube.com/watch?v=${shortId}`;
     }
+}
+
+function HideShortsTabChannel() {
+    document.querySelector('#tabsContent > tp-yt-paper-tab:nth-child(6) > div > div.tab-title.style-scope.ytd-c4-tabbed-header-renderer').textContent == 'Shorts';
 }
 
 
