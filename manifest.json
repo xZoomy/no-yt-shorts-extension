@@ -19,22 +19,6 @@
             "matches": [
                 "https://www.youtube.com/*"
             ]
-        },
-        {
-            "js": [
-                "js/feed.js"
-            ],
-            "matches": [
-                "https://www.youtube.com/feed/subscriptions"
-            ]
-        },
-        {
-            "js": [
-                "js/home.js"
-            ],
-            "matches": [
-                "https://www.youtube.com/"
-            ]
         }
     ],
     "permissions": [
