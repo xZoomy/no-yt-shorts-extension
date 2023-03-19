@@ -2,7 +2,8 @@ const globalDelay = 1000;
 const shortsConfig = {
     hideNavLink: true,
     hideSubFeed: true,
-    hideHomePage: true,
+    hideHomePage: false,
+    replaceShortUrl: true,
 }
 
 /**
@@ -20,7 +21,7 @@ function HideElement(selector) {
  * Removes Shorts tab on left sidebar
  * @param {HTMLElement} selector
  */
-function HideShortsNavlink() {
+function HideShortsNavLink() {
     const selector = document.querySelector('#endpoint[title="Shorts"]');
     HideElement(selector);
 }
@@ -48,15 +49,26 @@ function HideShortsHomePage() {
     }
 }
 
+/**
+ * Replaces shorts url to classic video player
+ */
+function ChangeUrlShorts() {
+    if (location.href.includes('https://www.youtube.com/shorts/')) {
+        const shortId = location.href.slice(31);
+        location.href = `https://www.youtube.com/watch?v=${shortId}`;
+    }
+}
+
 
 /**
  * Hides all shorts depending on config
  */
 function HideShorts() {
     setInterval(() => {
-        if (shortsConfig.hideNavLink) HideShortsNavlink();
+        if (shortsConfig.hideNavLink) HideShortsNavLink();
         if (shortsConfig.hideSubFeed) HideShortsSubFeed();
         if (shortsConfig.hideHomePage) HideShortsHomePage();
+        if (shortsConfig.replaceShortUrl) ChangeUrlShorts();
     }, globalDelay);
 }
 
