@@ -4,6 +4,7 @@ const shortsConfig = {
     hideSubFeed: true,
     hideHomePage: true,
     replaceShortUrl: true,
+    hideSearch: true,
 }
 
 /**
@@ -30,14 +31,16 @@ function HideShortsNavLink() {
  * Hides shorts in subscriptions feed
  */
 function HideShortsSubFeed() {
-    // GRID VIEW
-    if (location.href === 'https://www.youtube.com/feed/subscriptions' || location.href === 'https://www.youtube.com/feed/subscriptions?flow=1') {
-        const selectors = document.querySelectorAll("#overlays > ytd-thumbnail-overlay-time-status-renderer > yt-icon > svg");
-        selectors.forEach((el) => {
-            HideElement(el.closest('ytd-grid-video-renderer'));
+    if (location.href.includes('https://www.youtube.com/feed/subscriptions')) {
+        const selectors = document.querySelectorAll("a#video-title[href*='/shorts/']");
+        selectors.forEach((el, i) => {
+            if (el.closest('ytd-grid-video-renderer')) { // GRID VIEW
+                HideElement(el.closest('ytd-grid-video-renderer'));
+            } else { // LIST VIEW
+                if (i !== 0) HideElement(el.closest('ytd-item-section-renderer')); // workaround because first video section has buttons on top
+            }
         });
     }
-    // TODO: list view
 }
 
 /**
@@ -64,6 +67,22 @@ function HideShortsTabChannel() {
     document.querySelector('#tabsContent > tp-yt-paper-tab:nth-child(6) > div > div.tab-title.style-scope.ytd-c4-tabbed-header-renderer').textContent == 'Shorts';
 }
 
+function HideShortsSearch() {
+    if (location.href.includes('https://www.youtube.com/results?search_query=')) {
+        const shortsSections = document.querySelectorAll('#contents > ytd-reel-shelf-renderer');
+        shortsSections.forEach(el => {
+            HideElement(el);
+        });
+
+        const videos = document.querySelectorAll('#contents > ytd-video-renderer');
+        videos.forEach((el) => {
+            // if (el.querySelector('#thumbnail').href.contains('/shorts/')) {
+            //     HideElement(el);
+            // }
+        });
+    }
+}
+
 
 /**
  * Hides all shorts depending on config
@@ -74,6 +93,7 @@ function HideShorts() {
         if (shortsConfig.hideSubFeed) HideShortsSubFeed();
         if (shortsConfig.hideHomePage) HideShortsHomePage();
         if (shortsConfig.replaceShortUrl) ChangeUrlShorts();
+        if (shortsConfig.hideSearch) HideShortsSearch();
     }, globalDelay);
 }
 

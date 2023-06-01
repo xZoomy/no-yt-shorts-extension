@@ -14,7 +14,7 @@
     "content_scripts": [
         {
             "js": [
-                "js/all.js"
+                "js/main.js"
             ],
             "matches": [
                 "https://www.youtube.com/*"
